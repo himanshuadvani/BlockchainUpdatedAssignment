@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> 
+		
+      <script src="/js/config.js"></script>
+      <script src="/js/public_config.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+</head>
+
+<body >
+    <div class="row">
+    
+
+    <div class="col-lg-5 col-md-5">
+      
+           <div class="col-lg-8 col-md-8" style="margin:auto">
+    
+        
+                <!--Homepage left side-->
+                    <div id="homepage" class="panel panel-default" style="background-color: #e9ecef;;margin-top: 10%">
+                            <div class="panel-body">
+                                    <div class="jumbotron">
+                                            <div class="formHeight">
+                                                <h2 class="display-4" id="user" name="user"></h2></div></div>
+                                                <div class="col-lg-8 col-md-8" style="margin:auto">
+                                                
+        
+        
+
+                                         
+                                                </div>
+                                       
+                            </div>
+                                </div>
+                        <!---------------------------------------------------------------------------------->
+
+
+
+
+    </div>
+    </div>
+
+
+        <!--Home page right-side, purchase view add all items-->
+        
+        <div class="col-lg-6 col-md-6">
+                <div id="market">
+                <nav class="navbar navbar-light" style="background-color: #e9ecef;margin-top:5%">
+                        
+                        <button class="btn btn-default navbar-brand" onClick="home()" id="navhome" name="navhome">Marketplace</button>
+                        <button class="btn btn-default"  onClick="addItem()" id="navadditem" name="navadditem" >Add Item</button>
+                       
+                        
+                        <button class="btn btn-default" onClick="viewHistory()" style="background-color: lightblue">History</button>
+                        <button class="btn btn-default" onClick="viewreqTokens()">Tokens</button>
+                        <button class="btn btn-primary" onClick="viewProfile()">Profile</button>
+                        
+                        <button class="btn btn-danger"  onClick="logoutUser()">Logout</button>
+                        
+                      </nav>
+
+                        <br>
+                        
+                  <div id="viewHistory" class="panel panel-default" style="background-color: #e9ecef;height: 600px; overflow-y: scroll"">
+                        <div id="allHistory"class="panel-body">
+
+                            </div>
+                 
+                    </div>    
+
+
+        </div>
+
+        
+    </div>
+
+
+</div>
+
+<script>
+ 
+
+$(document).ready(function() {
+
+var arr=[];
+arr=JSON.parse(sessionStorage.getItem('user'));
+str="Welcome, "+arr.fullname;
+$("#user").text(str);
+console.log(arr);
+
+    
+$.ajax({
+        url: "http://localhost:3913/blockchain/history/"+arr.username+"",
+        type: 'GET',
+        dataType: 'json', // added data type
+        success: function(resp) {
+            
+            console.log("Current user: "+arr.username);
+            for(var i=0;i<resp.length;i++)
+            {
+               console.log(resp[i])
+                itemData="";
+                 itemData+= '<div class="panel panel-default">';
+                itemData+='<div class="panel-body" style="border-style:solid;background-color: white;border-width:0.5px;border-radius:5px;margin:10px;">';
+                    
+
+                 itemData+='&nbsp;&nbsp;Item: '+resp[i][0][1]+'<br>&nbsp;&nbsp;Price:<b> '+resp[i][0][2]+' SHOP tokens</b><br>&nbsp;&nbsp;Owner: '+resp[i][0][3]+'<br>&nbsp&nbsp';
+
+                
+                itemData+='<br><br></div></div>';
+                $("#allHistory").append(itemData);}
+        
+            }
+ 
+    });
+
+   
+
+
+
+
+
+
+
+});
+
+
+   
+
+</script>
+
+<script src="../js/viewcontrol.js"></script>
+</body>
+
+
+
+
+
+</html>

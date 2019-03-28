@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> 
+		
+      <script src="/js/config.js"></script>
+      <script src="/js/public_config.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<!-- <script src="/js/transaction.js" type="text/javascript"></script>    -->
+</head>
+
+<body >
+    <div class="row">
+    
+
+    <div class="col-lg-5 col-md-5">
+      
+           <div class="col-lg-8 col-md-8" style="margin:auto">
+    
+            <!--Login form-->
+           <div id="login_form" class="panel panel-default" style="background-color: #e9ecef;margin-top: 10%">
+                        <div class="panel-body">
+                                <div class="jumbotron">
+                                        <div class="formHeight">
+                                            <h2 class="display-4">Login</h2></div></div>
+                                            <div class="col-lg-8 col-md-8" style="margin:auto">
+                                            <div class="form-group">
+                                                <label>Username</label>
+                                                <input type="text" id="username" name="username" required class="form-control">
+                                            </div>
+
+                                            <div class="form-group">
+                                                    <label>Password</label>
+                                                    <input type="password" id="password" name="password" required class="form-control">
+                                                </div>
+
+
+                                                <br>
+                                                <div style="display:flex">
+                                            <button class="btn btn-primary" style="float:left"  onClick="loginUser()">Submit</button>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <button class="btn btn-danger" style="float:right" onClick="signup()">Register</button>
+                                                
+                                            </div>
+                                            <br><br>
+                               
+
+                                        </div>
+                                            </div>
+                                
+
+                        </div>
+<!------------------------------------------------------------------------------------>
+                      
+        
+        
+
+
+                    <!---------------------------------------------------------------------------------->
+
+
+                <!--Homepage left side-->
+                  
+                        <!---------------------------------------------------------------------------------->
+
+
+
+
+    </div>
+    </div>
+
+
+      
+
+
+
+
+
+
+</div>
+
+<script>
+
+
+function loginUser()
+{
+    var username=$("#username").val();
+    var passname=$("#password").val();
+console.log("Inside loginUSer()");
+
+if(username=="admin" && passname=="admin"){
+    var user={
+                        username:"admin",
+                        fullname:"Admin",
+                        password:"admin",
+                     key:"0x3BAAa86674d6cED61bc4ff56dE482111EAE78C50"
+                    };
+
+                    sessionStorage.setItem('user',JSON.stringify(user));
+                    var arr=[]
+                    arr=sessionStorage.getItem('user').split(",")
+                    //alert(arr);
+                   window.location="http://localhost:3913/adminhome";
+
+                    
+
+}
+else{
+
+$.ajax({
+        url: "http://localhost:3913/blockchain/users",
+        type: 'GET',
+        dataType: 'json', // added data type
+        success: function(res) {
+            console.log(res);
+            
+            
+            for(var i=0;i<res.length;i++)
+            {
+                if(username==res[i].username && passname==res[i].password)
+                {
+                   
+                   // alert("Welcome, "+res[i].fullname);
+                    var user={
+                        username:res[i].username,
+                        fullname:res[i].fullname,
+                        password:res[i].password,
+                     key:res[i].key
+                    };
+                   
+                 
+                    sessionStorage.setItem('user',JSON.stringify(user));
+                    var arr=[]
+                    arr=sessionStorage.getItem('user').split(",")
+                    //alert(arr);
+                   window.location="http://localhost:3913/userhome";
+                      
+                   break;
+             }
+            }
+
+
+
+
+        }
+    });
+
+}
+    
+    
+}
+
+ 
+</script>
+
+<script src="../js/viewcontrol.js"></script>
+</body>
+
+
+
+
+
+</html>

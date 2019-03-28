@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> 
+		
+      <script src="/js/config.js"></script>
+      <script src="/js/public_config.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script src="/js/transaction.js" type="text/javascript"></script>   
+</head>
+
+<body >
+    <div class="row">
+    
+
+    <div class="col-lg-5 col-md-5">
+      
+           <div class="col-lg-8 col-md-8" style="margin:auto">
+    
+                      
+        
+        
+
+
+                <!--Homepage left side-->
+                    <div id="homepage" class="panel panel-default" style="background-color: #e9ecef;;margin-top: 10%">
+                            <div class="panel-body">
+                                    <div class="jumbotron">
+                                            <div class="formHeight">
+                                                <h2 class="display-4" id="user" name="user"></h2></div></div>
+                                                <div class="col-lg-8 col-md-8" style="margin:auto">
+                                                
+        
+        
+
+                                         
+                                                </div>
+                                       
+                            </div>
+                                </div>
+                        <!---------------------------------------------------------------------------------->
+
+
+
+
+    </div>
+    </div>
+
+
+        <!--Home page right-side, purchase view add all items-->
+        
+        <div class="col-lg-6 col-md-6">
+                <div id="market">
+                <nav class="navbar navbar-light" style="background-color: #e9ecef;margin-top:5%">
+                        
+                        <button class="btn btn-default navbar-brand" onClick="home()" id="navhome" name="navhome" style="background-color: lightblue">Marketplace</button>
+                        <button class="btn btn-default"  onClick="addItem()" id="navadditem" name="navadditem" >Add Item</button>
+                       
+                        
+                        <button class="btn btn-default" onClick="viewHistory()">History</button>
+                        <button class="btn btn-default" onClick="viewreqTokens()">Tokens</button>
+                        <button class="btn btn-primary" onClick="viewProfile()">Profile</button>
+                        
+                        <button class="btn btn-danger"  onClick="logoutUser()">Logout</button>
+                        
+                      </nav>
+
+
+                      
+                        <br>
+                        <div id="home" class="panel panel-default" style="background-color: #e9ecef;height: 600px; overflow-y: scroll"><br>
+                            <div id="allItems"class="panel-body">
+
+                            </div>
+                          </div>
+                 
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<script>
+
+
+$(document).ready(function() {
+
+    var arr=[];
+    arr=JSON.parse(sessionStorage.getItem('user'));
+    str="Welcome, "+arr.fullname;
+    $("#user").text(str);
+    console.log(arr);
+
+    
+    
+$.ajax({
+        url: "http://localhost:3913/blockchain/items",
+        type: 'GET',
+        dataType: 'json', // added data type
+        success: function(res) {
+            console.log(res);
+           console.log("Current user: "+arr.username);
+            for(var i=0;i<res.length;i++)
+            {
+                itemData="";
+                 itemData+= '<div class="panel panel-default">';
+                itemData+='<div class="panel-body" style="border-style:solid;background-color: white;border-width:0.5px;border-radius:5px;margin:10px;">';
+                 itemData+='&nbsp;&nbsp;Item: '+res[i][1]+'<br>&nbsp;&nbsp;Price:<b> '+res[i][2]+' SHOP tokens</b><br>&nbsp;&nbsp;Owner: '+res[i][3]+'<br>&nbsp&nbsp';
+
+                if(arr.username!=res[i][0])
+                {
+                itemData+='<div style="display:flex;margin-left:10px;"><button class="btn btn-danger" onClick="transferTokens(\''+res[i]+'\');">Transfer Tokens</button>&nbsp;&nbsp;&nbsp;';
+                itemData+='<button class="btn btn-primary" onClick="buyItem(\''+res[i]+'\');">Buy</button></div>';
+                itemData+='<small style="color:red;margin-left:10px;">To buy, you need to transfer tokens to respective owners account.</small>'
+               
+              }
+                itemData+='<br><br></div></div>';
+                $("#allItems").append(itemData);}
+        
+            }
+
+
+
+
+        
+    });
+
+   
+
+
+
+
+
+});
+
+
+
+
+
+     window.onbeforeunload = function(event) {
+     event.returnValue = "Your custom message.";}
+
+</script>
+<script src="../js/viewcontrol.js"></script>
+
+</body>
+
+
+
+
+
+</html>

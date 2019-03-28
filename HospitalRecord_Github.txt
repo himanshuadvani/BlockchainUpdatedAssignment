@@ -1,0 +1,3 @@
+I have uploaded the POC provided by external faculty on Github and hereby is the path:
+
+https://github.com/himanshuadvani/Blockchain_HospitalRecords
